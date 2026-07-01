@@ -1,0 +1,27 @@
+name: RouteSentry Next
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  routesentry:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: OWNER/routesentry-next@v0
+        with:
+          path: "."
+          format: "sarif"
+          output: "routesentry.sarif"
+          fail-on: "high"
+
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: routesentry.sarif
