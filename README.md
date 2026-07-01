@@ -68,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: OWNER/routesentry-next@v0
+      - uses: egeyasar0/routesentry-next@v0.1.0
         with:
           path: "."
           format: "sarif"
@@ -157,6 +157,8 @@ If it finds a called pattern, it marks the route as `route_level_auth_detected`.
 
 - Matcher parsing supports common string and array forms only.
 - Static pattern detection can miss custom wrappers, multi-hop imports, and indirect authorization.
+- Auth detection is pattern-based and conservative. CORS response headers are not treated as authorization checks.
+- Pages Router method detection supports common `req.method` comparisons and switch cases.
 - Protected-looking route detection uses path names such as `/admin`, `/dashboard`, `/settings`, `/account`, `/billing`, and selected `/api/*` prefixes.
 - Confidence means the static evidence matched the rule, not that the route is vulnerable.
 

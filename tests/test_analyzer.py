@@ -42,3 +42,15 @@ def test_src_layout_project_is_detected_and_scanned():
 
     assert looks_like_next_project(FIXTURES / "src_layout_app") is True
     assert {route.path for route in report.routes} >= {"/dashboard", "/api/admin/users", "/api/account"}
+
+
+def test_pages_api_method_mutation_reports_rsn_003_high():
+    report = scan_project(FIXTURES / "pages_api_method_app")
+
+    assert [(finding.rule_id, finding.severity) for finding in report.findings] == [("RSN-003", "HIGH")]
+
+
+def test_cors_authorization_header_mutation_still_reports_rsn_003():
+    report = scan_project(FIXTURES / "cors_authorization_header_app")
+
+    assert [(finding.rule_id, finding.severity) for finding in report.findings] == [("RSN-003", "HIGH")]

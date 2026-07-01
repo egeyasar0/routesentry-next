@@ -100,4 +100,16 @@ def _detect_methods(source: Path) -> list[str]:
     for method in HTTP_METHODS:
         if re.search(rf"\b(export\s+)?(async\s+)?function\s+{method}\b|\bexport\s+const\s+{method}\b", text):
             methods.append(method)
+        elif _uses_req_method(text, method):
+            methods.append(method)
     return methods
+
+
+def _uses_req_method(text: str, method: str) -> bool:
+    quoted = rf"['\"]{method}['\"]"
+    comparisons = (
+        rf"\breq\.method\s*(?:===|!==|==|!=)\s*{quoted}",
+        rf"\breq\.method\?\.toUpperCase\(\)\s*(?:===|!==|==|!=)\s*{quoted}",
+        rf"\bcase\s+{quoted}\s*:",
+    )
+    return any(re.search(pattern, text) for pattern in comparisons)

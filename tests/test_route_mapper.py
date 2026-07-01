@@ -34,3 +34,11 @@ def test_maps_src_app_and_pages_layouts():
     assert by_path["/api/account"].route_type == "api_route"
     assert by_path["/api/admin/users"].route_type == "route_handler"
     assert "/_components" not in by_path
+
+
+def test_detects_pages_api_req_method_mutation():
+    routes = map_routes(FIXTURES / "pages_api_method_app")
+    route = next(route for route in routes if route.path == "/api/account")
+
+    assert route.route_type == "api_route"
+    assert route.http_methods == ["POST"]

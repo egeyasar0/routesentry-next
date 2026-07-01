@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: OWNER/routesentry-next@v0
+      - uses: egeyasar0/routesentry-next@v0.1.0
         with:
           path: "."
           format: "sarif"
